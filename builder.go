@@ -3,7 +3,7 @@ package astql
 import (
 	"fmt"
 
-	"github.com/zoobzio/astql/internal/types"
+	"github.com/zoobz-io/astql/internal/types"
 )
 
 // and creates an AND condition group (internal helper for builder).

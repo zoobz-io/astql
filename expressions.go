@@ -3,7 +3,7 @@ package astql
 import (
 	"fmt"
 
-	"github.com/zoobzio/astql/internal/types"
+	"github.com/zoobz-io/astql/internal/types"
 )
 
 // Helper functions for creating field expressions.

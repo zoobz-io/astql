@@ -9,9 +9,9 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go/modules/mssql"
-	"github.com/zoobzio/astql"
-	astqlmssql "github.com/zoobzio/astql/mssql"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	astqlmssql "github.com/zoobz-io/astql/mssql"
+	"github.com/zoobz-io/dbml"
 )
 
 // MSSQLContainer wraps a testcontainers SQL Server instance.

@@ -1,10 +1,10 @@
-module github.com/zoobzio/astql
+module github.com/zoobz-io/astql
 
 go 1.24.0
 
 toolchain go1.25.5
 
-require github.com/zoobzio/dbml v1.0.0
+require github.com/zoobz-io/dbml v1.0.1
 
 require (
 	github.com/kr/pretty v0.3.1 // indirect

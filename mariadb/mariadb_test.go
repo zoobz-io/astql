@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zoobzio/astql/internal/render"
-	"github.com/zoobzio/astql/internal/types"
+	"github.com/zoobz-io/astql/internal/render"
+	"github.com/zoobz-io/astql/internal/types"
 )
 
 func TestNew(t *testing.T) {

@@ -3,58 +3,46 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
 
 permissions:
   contents: write
 
 jobs:
   validate:
-    name: Validate Module
+    name: Validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
 
-      - name: Install tools
-        run: make install-tools
+    - name: Run tests
+      run: make test
 
-      - name: Run CI checks
-        run: make ci
+    - name: Run linter
+      run: |
+        go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
+        make lint
 
-  tag-submodules:
-    name: Tag Submodules
+    - name: Verify go.mod is tidy
+      run: |
+        go mod tidy
+        git diff --exit-code go.mod go.sum
+
+  release:
+    name: Release
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Tag submodules
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          git tag "testing/integration/${VERSION}"
-          git push origin --tags
-
-  release:
-    name: Create Release
-    needs: tag-submodules
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: Setup Go
+    - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: '1.25'
@@ -63,7 +51,24 @@ jobs:
       uses: goreleaser/goreleaser-action@v6
       with:
         distribution: goreleaser
-        version: '~> v2'
+        version: latest
         args: release --clean
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  verify:
+    name: Verify
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.25'
+
+    - name: Verify module
+      run: |
+        sleep 60
+        TAG=${GITHUB_REF#refs/tags/}
+        go install github.com/zoobz-io/astql@$TAG || echo "Module verification pending proxy sync"
+      continue-on-error: true

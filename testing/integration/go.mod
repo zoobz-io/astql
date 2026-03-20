@@ -1,4 +1,4 @@
-module github.com/zoobzio/astql/testing/integration
+module github.com/zoobz-io/astql/testing/integration
 
 go 1.24.0
 
@@ -12,8 +12,8 @@ require (
 	github.com/testcontainers/testcontainers-go/modules/mariadb v0.40.0
 	github.com/testcontainers/testcontainers-go/modules/mssql v0.40.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.40.0
-	github.com/zoobzio/astql v0.0.0
-	github.com/zoobzio/dbml v1.0.0
+	github.com/zoobz-io/astql v0.0.0
+	github.com/zoobz-io/dbml v1.0.1
 	modernc.org/sqlite v1.40.1
 )
 
@@ -86,4 +86,4 @@ require (
 )
 
 // Use local version during development
-replace github.com/zoobzio/astql => ../..
+replace github.com/zoobz-io/astql => ../..

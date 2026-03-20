@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/testcontainers/testcontainers-go/modules/mariadb"
-	"github.com/zoobzio/astql"
-	astqlmariadb "github.com/zoobzio/astql/mariadb"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	astqlmariadb "github.com/zoobz-io/astql/mariadb"
+	"github.com/zoobz-io/dbml"
 )
 
 // MariaDBContainer wraps a testcontainers MariaDB instance.

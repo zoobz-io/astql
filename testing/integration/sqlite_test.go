@@ -9,9 +9,9 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"github.com/zoobzio/astql"
-	"github.com/zoobzio/astql/sqlite"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	"github.com/zoobz-io/astql/sqlite"
+	"github.com/zoobz-io/dbml"
 )
 
 // SQLiteDB wraps an in-memory SQLite database for testing.

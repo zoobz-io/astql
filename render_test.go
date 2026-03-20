@@ -4,13 +4,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zoobzio/astql"
-	"github.com/zoobzio/astql/internal/types"
-	"github.com/zoobzio/astql/mariadb"
-	"github.com/zoobzio/astql/mssql"
-	"github.com/zoobzio/astql/postgres"
-	"github.com/zoobzio/astql/sqlite"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	"github.com/zoobz-io/astql/internal/types"
+	"github.com/zoobz-io/astql/mariadb"
+	"github.com/zoobz-io/astql/mssql"
+	"github.com/zoobz-io/astql/postgres"
+	"github.com/zoobz-io/astql/sqlite"
+	"github.com/zoobz-io/dbml"
 )
 
 func createMariaDBRenderer() *mariadb.Renderer {
