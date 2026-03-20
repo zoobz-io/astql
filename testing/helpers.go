@@ -4,8 +4,8 @@ package testing
 import (
 	"testing"
 
-	"github.com/zoobzio/astql"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	"github.com/zoobz-io/dbml"
 )
 
 // TestInstance creates a fully-featured ASTQL instance for testing.

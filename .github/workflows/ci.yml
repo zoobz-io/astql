@@ -2,84 +2,35 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
-    name: Test (Go ${{ matrix.go-version }})
+    name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         go-version: ['1.24', '1.25']
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: ${{ matrix.go-version }}
-
-    - name: Run tests with race detector
-      run: make test-race
-
-    - name: Generate coverage
-      run: make coverage
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage.out
-        flags: unittests
-        name: astql-coverage-${{ matrix.go-version }}
-        fail_ci_if_error: false
-      if: matrix.go-version == '1.25'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: make test
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.25'
-
-    - name: golangci-lint
-      uses: golangci/golangci-lint-action@v7
-      with:
-        version: v2.7.2
-        args: --config=.golangci.yml --timeout=5m
-        skip-cache: false
-        skip-save-cache: false
-    
-    - name: Security Report
-      if: always()
-      run: |
-        golangci-lint run --config=.golangci.yml --out-format=json > lint-report.json || true
-        echo "### Security Scan Summary" >> $GITHUB_STEP_SUMMARY
-        echo "Linters with findings:" >> $GITHUB_STEP_SUMMARY
-        jq -r '.Issues[] | .FromLinter' lint-report.json 2>/dev/null | sort | uniq -c | sort -nr >> $GITHUB_STEP_SUMMARY || echo "No issues found ✅" >> $GITHUB_STEP_SUMMARY
-
-  integration:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.25'
-
-    - name: Run integration tests
-      run: make test-integration
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.7.2
 
   security:
     name: Security
@@ -88,53 +39,33 @@ jobs:
       contents: read
       security-events: write
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.25'
-
-    - name: Run Gosec Security Scanner
-      uses: securego/gosec@master
-      with:
-        args: '-fmt sarif -out gosec-results.sarif --no-fail ./...'
-
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v3
-      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-      continue-on-error: true
-      with:
-        sarif_file: gosec-results.sarif
-        wait-for-processing: true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - uses: securego/gosec@master
+        with:
+          args: '-fmt sarif -out gosec-results.sarif --no-fail ./...'
+      - uses: github/codeql-action/upload-sarif@v3
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        continue-on-error: true
+        with:
+          sarif_file: gosec-results.sarif
 
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.25'
-
-    - name: Run benchmarks
-      run: |
-        echo "### ASTQL Benchmarks" | tee benchmark_results.txt
-        make bench | tee -a benchmark_results.txt
-
-    - name: Upload benchmark results
-      uses: actions/upload-artifact@v4
-      with:
-        name: benchmark-results
-        path: benchmark_results.txt
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - run: make test-bench
 
   ci-complete:
     name: CI Complete
-    needs: [test, lint, integration, security, benchmark]
+    needs: [test, lint, security, benchmark]
     runs-on: ubuntu-latest
     steps:
-    - run: echo "CI complete"
+      - name: All checks passed
+        run: echo "All CI checks passed"

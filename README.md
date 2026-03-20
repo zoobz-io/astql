@@ -1,13 +1,13 @@
 # astql
 
-[![CI](https://github.com/zoobzio/astql/actions/workflows/ci.yml/badge.svg)](https://github.com/zoobzio/astql/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/zoobzio/astql/branch/main/graph/badge.svg)](https://codecov.io/gh/zoobzio/astql)
-[![Go Report Card](https://goreportcard.com/badge/github.com/zoobzio/astql)](https://goreportcard.com/report/github.com/zoobzio/astql)
-[![CodeQL](https://github.com/zoobzio/astql/actions/workflows/codeql.yml/badge.svg)](https://github.com/zoobzio/astql/actions/workflows/codeql.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/zoobzio/astql.svg)](https://pkg.go.dev/github.com/zoobzio/astql)
-[![License](https://img.shields.io/github/license/zoobzio/astql)](LICENSE)
-[![Go Version](https://img.shields.io/github/go-mod/go-version/zoobzio/astql)](go.mod)
-[![Release](https://img.shields.io/github/v/release/zoobzio/astql)](https://github.com/zoobzio/astql/releases)
+[![CI](https://github.com/zoobz-io/astql/actions/workflows/ci.yml/badge.svg)](https://github.com/zoobz-io/astql/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/zoobz-io/astql/branch/main/graph/badge.svg)](https://codecov.io/gh/zoobz-io/astql)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zoobz-io/astql)](https://goreportcard.com/report/github.com/zoobz-io/astql)
+[![CodeQL](https://github.com/zoobz-io/astql/actions/workflows/codeql.yml/badge.svg)](https://github.com/zoobz-io/astql/actions/workflows/codeql.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/zoobz-io/astql.svg)](https://pkg.go.dev/github.com/zoobz-io/astql)
+[![License](https://img.shields.io/github/license/zoobz-io/astql)](LICENSE)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/zoobz-io/astql)](go.mod)
+[![Release](https://img.shields.io/github/v/release/zoobz-io/astql)](https://github.com/zoobz-io/astql/releases)
 
 Type-safe SQL query builder with DBML schema validation.
 
@@ -36,10 +36,10 @@ Same query, different databases:
 
 ```go
 import (
-    "github.com/zoobzio/astql/postgres"
-    "github.com/zoobzio/astql/sqlite"
-    "github.com/zoobzio/astql/mariadb"
-    "github.com/zoobzio/astql/mssql"
+    "github.com/zoobz-io/astql/postgres"
+    "github.com/zoobz-io/astql/sqlite"
+    "github.com/zoobz-io/astql/mariadb"
+    "github.com/zoobz-io/astql/mssql"
 )
 
 result, _ := query.Render(postgres.New())  // "username", LIMIT 10
@@ -53,8 +53,8 @@ One AST. Four dialects. Each renderer handles identifier quoting, pagination syn
 ## Install
 
 ```bash
-go get github.com/zoobzio/astql
-go get github.com/zoobzio/dbml
+go get github.com/zoobz-io/astql
+go get github.com/zoobz-io/dbml
 ```
 
 Requires Go 1.24+.
@@ -66,9 +66,9 @@ package main
 
 import (
     "fmt"
-    "github.com/zoobzio/astql"
-    "github.com/zoobzio/astql/postgres"
-    "github.com/zoobzio/dbml"
+    "github.com/zoobz-io/astql"
+    "github.com/zoobz-io/astql/postgres"
+    "github.com/zoobz-io/dbml"
 )
 
 func main() {
@@ -129,7 +129,7 @@ ASTQL enables a pattern: **define schema once in DBML, generate everything else*
 
 Your DBML becomes the single source of truth. Downstream tools consume the schema to build:
 
-- **Type-safe repositories** — generated data access layers with [cereal](https://github.com/zoobzio/cereal)
+- **Type-safe repositories** — generated data access layers with [cereal](https://github.com/zoobz-io/cereal)
 - **Query builders** — domain-specific methods that can't reference invalid columns
 - **Multi-database applications** — same business logic, swappable storage backends
 

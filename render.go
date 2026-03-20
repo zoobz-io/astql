@@ -1,8 +1,8 @@
 package astql
 
 import (
-	"github.com/zoobzio/astql/internal/render"
-	"github.com/zoobzio/astql/internal/types"
+	"github.com/zoobz-io/astql/internal/render"
+	"github.com/zoobz-io/astql/internal/types"
 )
 
 // Renderer defines the interface for SQL dialect-specific rendering.

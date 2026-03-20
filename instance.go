@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/zoobzio/astql/internal/types"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql/internal/types"
+	"github.com/zoobz-io/dbml"
 )
 
 // ASTQL represents an instance of the query builder with a specific DBML schema.

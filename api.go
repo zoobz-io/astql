@@ -8,7 +8,7 @@
 //
 // Queries can be built directly using the package-level builder functions:
 //
-//	import "github.com/zoobzio/astql/postgres"
+//	import "github.com/zoobz-io/astql/postgres"
 //
 //	query := astql.Select(table).
 //		Fields(field1, field2).
@@ -25,7 +25,7 @@
 // The package supports multiple SQL dialects through the Renderer interface.
 // Available providers: postgres, mariadb, sqlite, mssql.
 //
-//	import "github.com/zoobzio/astql/mariadb"
+//	import "github.com/zoobz-io/astql/mariadb"
 //
 //	result, err := query.Render(mariadb.New())
 //
@@ -55,7 +55,7 @@
 // and similar functions. Identifiers are quoted to handle reserved words.
 package astql
 
-import "github.com/zoobzio/astql/internal/types"
+import "github.com/zoobz-io/astql/internal/types"
 
 // AST represents the abstract syntax tree for a query.
 // This is re-exported from internal/types for use by consumers.

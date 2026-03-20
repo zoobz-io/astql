@@ -1,100 +1,39 @@
 version: 2
 
-before:
-  hooks:
-    - go mod tidy
-    - go mod download
-
 builds:
-  - skip: true  # Library-only, no binaries
-
-archives:
-  - format: tar.gz
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-
-source:
-  enabled: true
-  name_template: '{{ .ProjectName }}_{{ .Version }}_source'
-
-checksum:
-  name_template: 'checksums.txt'
-
-snapshot:
-  version_template: "{{ incpatch .Version }}-next"
+  - skip: true
 
 changelog:
   sort: asc
-  use: github
-  filters:
-    exclude:
-      - '^docs:'
-      - '^test:'
-      - '^chore:'
-      - '^ci:'
-      - 'typo'
-      - Merge pull request
-      - Merge remote-tracking branch
-      - Merge branch
   groups:
-    - title: '🚀 Features'
+    - title: Features
       regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
       order: 0
-    - title: '🐛 Bug Fixes'
+    - title: Bug Fixes
       regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
       order: 1
-    - title: '⚠️ Breaking Changes'
-      regexp: '^.*?!:.+$'
-      order: 2
-    - title: '📚 Documentation'
+    - title: Documentation
       regexp: '^.*?docs(\([[:word:]]+\))??!?:.+$'
-      order: 3
-    - title: '🔨 Improvements'
-      regexp: '^.*?(refactor|perf|style)(\([[:word:]]+\))??!?:.+$'
-      order: 4
-    - title: '🧪 Testing'
-      regexp: '^.*?test(\([[:word:]]+\))??!?:.+$'
-      order: 5
-    - title: '🔧 Maintenance'
-      regexp: '^.*?chore(\([[:word:]]+\))??!?:.+$'
-      order: 6
+      order: 2
     - title: Others
       order: 999
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
 
 release:
   github:
-    owner: zoobzio
+    owner: zoobz-io
     name: astql
-  
-  header: |
-    ## ASTQL {{ .Tag }}
-    
-    Type-safe SQL query builder for Go with support for PostgreSQL and SQLite.
-    
-    ### Installation
-    ```bash
-    go get github.com/zoobzio/astql@{{ .Tag }}
-    ```
-  
-  footer: |
-    ---
-
-    **Full Changelog**: https://github.com/zoobzio/astql/compare/{{ .PreviousTag }}...{{ .Tag }}
-
+  draft: false
   prerelease: auto
-  mode: append
-  
-  name_template: "{{.Tag}}"
-
-milestones:
-  - close: true
-    fail_on_error: false
-    name_template: "{{ .Tag }}"
-
-announce:
-  skip: true
+  header: |
+    ## What's Changed
+  footer: |
+    ## Installation
+    ```bash
+    go get github.com/zoobz-io/astql@{{ .Tag }}
+    ```

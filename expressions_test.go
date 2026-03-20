@@ -4,10 +4,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zoobzio/astql"
-	"github.com/zoobzio/astql/internal/types"
-	"github.com/zoobzio/astql/postgres"
-	"github.com/zoobzio/dbml"
+	"github.com/zoobz-io/astql"
+	"github.com/zoobz-io/astql/internal/types"
+	"github.com/zoobz-io/astql/postgres"
+	"github.com/zoobz-io/dbml"
 )
 
 func createExpressionsTestInstance(t *testing.T) *astql.ASTQL {
