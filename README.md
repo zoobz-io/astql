@@ -110,9 +110,9 @@ func main() {
 
 | Feature              | Description                                          | Docs                                                      |
 | -------------------- | ---------------------------------------------------- | --------------------------------------------------------- |
-| Schema Validation    | Tables and fields checked against DBML at build time | [Schema Validation](docs/3.guides/1.schema-validation.md) |
-| Multi-Dialect        | PostgreSQL, SQLite, MariaDB, MSSQL from one AST      | [Architecture](docs/2.learn/3.architecture.md)            |
-| Parameterized Values | Injection-resistant queries with named parameters    | [Conditions](docs/3.guides/2.conditions.md)               |
+| Schema Validation    | Tables and fields checked against DBML at build time | [Schema Validation](https://github.com/zoobz-io/astql/blob/main/docs/3.guides/1.schema-validation.md) |
+| Multi-Dialect        | PostgreSQL, SQLite, MariaDB, MSSQL from one AST      | [Architecture](https://github.com/zoobz-io/astql/blob/main/docs/2.learn/3.architecture.md)            |
+| Parameterized Values | Injection-resistant queries with named parameters    | [Conditions](https://github.com/zoobz-io/astql/blob/main/docs/3.guides/2.conditions.md)               |
 | Composable Queries   | Subqueries, JOINs, aggregates, window functions      | [Joins](docs/3.guides/3.joins.md)                         |
 | CASE Expressions     | Conditional logic within queries                     | [API](docs/5.reference/1.api.md)                          |
 
@@ -157,23 +157,23 @@ The schema guards the boundary. Queries inside the boundary are safe by construc
 
 ### Learn
 
-- [Quickstart](docs/2.learn/1.quickstart.md) — get started in minutes
+- [Quickstart](https://github.com/zoobz-io/astql/blob/main/docs/2.learn/1.quickstart.md) — get started in minutes
 - [Concepts](docs/2.learn/2.concepts.md) — tables, fields, params, conditions, builders
-- [Architecture](docs/2.learn/3.architecture.md) — AST structure, render pipeline, security layers
+- [Architecture](https://github.com/zoobz-io/astql/blob/main/docs/2.learn/3.architecture.md) — AST structure, render pipeline, security layers
 
 ### Guides
 
-- [Schema Validation](docs/3.guides/1.schema-validation.md) — DBML integration and validation
-- [Conditions](docs/3.guides/2.conditions.md) — WHERE, AND/OR, subqueries, BETWEEN
+- [Schema Validation](https://github.com/zoobz-io/astql/blob/main/docs/3.guides/1.schema-validation.md) — DBML integration and validation
+- [Conditions](https://github.com/zoobz-io/astql/blob/main/docs/3.guides/2.conditions.md) — WHERE, AND/OR, subqueries, BETWEEN
 - [Joins](docs/3.guides/3.joins.md) — INNER, LEFT, RIGHT, CROSS joins
-- [Aggregates](docs/3.guides/4.aggregates.md) — GROUP BY, HAVING, window functions
+- [Aggregates](https://github.com/zoobz-io/astql/blob/main/docs/3.guides/4.aggregates.md) — GROUP BY, HAVING, window functions
 - [Testing](docs/3.guides/5.testing.md) — testing patterns for query builders
 
 ### Cookbook
 
 - [Pagination](docs/4.cookbook/1.pagination.md) — LIMIT/OFFSET and cursor patterns
-- [Vector Search](docs/4.cookbook/2.vector-search.md) — pgvector similarity queries
-- [Upserts](docs/4.cookbook/3.upserts.md) — ON CONFLICT patterns
+- [Vector Search](https://github.com/zoobz-io/astql/blob/main/docs/4.cookbook/2.vector-search.md) — pgvector similarity queries
+- [Upserts](https://github.com/zoobz-io/astql/blob/main/docs/4.cookbook/3.upserts.md) — ON CONFLICT patterns
 - [ORM Foundation](docs/4.cookbook/4.orm-foundation.md) — building type-safe ORMs with cereal
 
 ### Reference
