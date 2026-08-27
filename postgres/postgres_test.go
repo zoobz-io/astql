@@ -1326,6 +1326,72 @@ func TestRender_ForShare(t *testing.T) {
 	}
 }
 
+func TestRender_ForUpdateSkipLocked(t *testing.T) {
+	r := New()
+	lock := types.LockForUpdate
+	ast := &types.AST{
+		Operation: types.OpSelect,
+		Target:    types.Table{Name: "jobs"},
+		Fields:    []types.Field{{Name: "id"}},
+		Lock:      &lock,
+		LockWait:  types.LockWaitSkipLocked,
+	}
+
+	result, err := r.Render(ast)
+	if err != nil {
+		t.Fatalf("Render() error = %v", err)
+	}
+
+	expected := `SELECT "id" FROM "jobs" FOR UPDATE SKIP LOCKED`
+	if result.SQL != expected {
+		t.Errorf("SQL = %q, want %q", result.SQL, expected)
+	}
+}
+
+func TestRender_ForUpdateNoWait(t *testing.T) {
+	r := New()
+	lock := types.LockForUpdate
+	ast := &types.AST{
+		Operation: types.OpSelect,
+		Target:    types.Table{Name: "jobs"},
+		Fields:    []types.Field{{Name: "id"}},
+		Lock:      &lock,
+		LockWait:  types.LockWaitNoWait,
+	}
+
+	result, err := r.Render(ast)
+	if err != nil {
+		t.Fatalf("Render() error = %v", err)
+	}
+
+	expected := `SELECT "id" FROM "jobs" FOR UPDATE NOWAIT`
+	if result.SQL != expected {
+		t.Errorf("SQL = %q, want %q", result.SQL, expected)
+	}
+}
+
+func TestRender_ForShareSkipLocked(t *testing.T) {
+	r := New()
+	lock := types.LockForShare
+	ast := &types.AST{
+		Operation: types.OpSelect,
+		Target:    types.Table{Name: "jobs"},
+		Fields:    []types.Field{{Name: "id"}},
+		Lock:      &lock,
+		LockWait:  types.LockWaitSkipLocked,
+	}
+
+	result, err := r.Render(ast)
+	if err != nil {
+		t.Fatalf("Render() error = %v", err)
+	}
+
+	expected := `SELECT "id" FROM "jobs" FOR SHARE SKIP LOCKED`
+	if result.SQL != expected {
+		t.Errorf("SQL = %q, want %q", result.SQL, expected)
+	}
+}
+
 func TestRender_Operators(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -1664,5 +1730,8 @@ func TestCapabilities(t *testing.T) {
 	}
 	if caps.RowLocking != render.RowLockingFull {
 		t.Errorf("RowLocking = %v, want RowLockingFull", caps.RowLocking)
+	}
+	if !caps.RowLockingWaitPolicy {
+		t.Error("RowLockingWaitPolicy should be true")
 	}
 }

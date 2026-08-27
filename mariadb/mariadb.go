@@ -223,6 +223,10 @@ func (r *Renderer) validateAST(ast *types.AST) error {
 			return render.NewUnsupportedFeatureError("mariadb", "FOR NO KEY UPDATE/FOR KEY SHARE",
 				"use FOR UPDATE or FOR SHARE instead")
 		}
+		if ast.LockWait != types.LockWaitNone {
+			return render.NewUnsupportedFeatureError("mariadb", "row-lock wait policy (SKIP LOCKED/NOWAIT)",
+				"omit the wait policy; it is currently only supported by the postgres renderer")
+		}
 	}
 
 	// Check for JSONB fields in all field locations
@@ -1423,15 +1427,16 @@ func (r *Renderer) renderOperator(op types.Operator) string {
 // Capabilities returns the SQL features supported by MariaDB.
 func (r *Renderer) Capabilities() render.Capabilities {
 	return render.Capabilities{
-		DistinctOn:          false,
-		Upsert:              true,
-		ReturningOnInsert:   true,
-		ReturningOnUpdate:   false, // Not supported (MDEV-5092)
-		ReturningOnDelete:   true,
-		CaseInsensitiveLike: true, // LIKE is case-insensitive by default
-		RegexOperators:      false,
-		ArrayOperators:      false,
-		InArray:             true,
-		RowLocking:          render.RowLockingBasic,
+		DistinctOn:           false,
+		Upsert:               true,
+		ReturningOnInsert:    true,
+		ReturningOnUpdate:    false, // Not supported (MDEV-5092)
+		ReturningOnDelete:    true,
+		CaseInsensitiveLike:  true, // LIKE is case-insensitive by default
+		RegexOperators:       false,
+		ArrayOperators:       false,
+		InArray:              true,
+		RowLocking:           render.RowLockingBasic,
+		RowLockingWaitPolicy: false,
 	}
 }

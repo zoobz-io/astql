@@ -737,6 +737,69 @@ func TestForKeyShare(t *testing.T) {
 	}
 }
 
+func TestForUpdate_SkipLocked(t *testing.T) {
+	instance := createBuilderTestInstance(t)
+
+	result, err := astql.Select(instance.T("users")).
+		Fields(instance.F("id")).
+		Where(instance.C(instance.F("id"), "=", instance.P("user_id"))).
+		OrderBy(instance.F("age"), types.ASC).
+		Limit(10).
+		ForUpdate().
+		SkipLocked().
+		Render(postgres.New())
+	if err != nil {
+		t.Fatalf("Render failed: %v", err)
+	}
+
+	expected := `SELECT "id" FROM "users" WHERE "id" = :user_id ORDER BY "age" ASC LIMIT 10 FOR UPDATE SKIP LOCKED`
+	if result.SQL != expected {
+		t.Errorf("Expected SQL:\n%s\nGot:\n%s", expected, result.SQL)
+	}
+}
+
+func TestForShare_NoWait(t *testing.T) {
+	instance := createBuilderTestInstance(t)
+
+	result, err := astql.Select(instance.T("users")).
+		Fields(instance.F("id")).
+		ForShare().
+		NoWait().
+		Render(postgres.New())
+	if err != nil {
+		t.Fatalf("Render failed: %v", err)
+	}
+
+	expected := `SELECT "id" FROM "users" FOR SHARE NOWAIT`
+	if result.SQL != expected {
+		t.Errorf("Expected SQL:\n%s\nGot:\n%s", expected, result.SQL)
+	}
+}
+
+func TestSkipLocked_WithoutLock_Errors(t *testing.T) {
+	instance := createBuilderTestInstance(t)
+
+	_, err := astql.Select(instance.T("users")).
+		Fields(instance.F("id")).
+		SkipLocked().
+		Render(postgres.New())
+	if err == nil {
+		t.Fatal("expected error when SkipLocked is called without a lock mode")
+	}
+}
+
+func TestNoWait_WithoutLock_Errors(t *testing.T) {
+	instance := createBuilderTestInstance(t)
+
+	_, err := astql.Select(instance.T("users")).
+		Fields(instance.F("id")).
+		NoWait().
+		Render(postgres.New())
+	if err == nil {
+		t.Fatal("expected error when NoWait is called without a lock mode")
+	}
+}
+
 // =============================================================================
 // NULLS FIRST/LAST Tests
 // =============================================================================

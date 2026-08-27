@@ -61,6 +61,16 @@ const (
 	LockForKeyShare    LockMode = "FOR KEY SHARE"
 )
 
+// LockWait represents the wait policy applied to a row-level lock,
+// controlling what happens when a target row is already locked.
+type LockWait string
+
+const (
+	LockWaitNone       LockWait = ""            // Wait for the lock (default)
+	LockWaitSkipLocked LockWait = "SKIP LOCKED" // Skip rows that are already locked
+	LockWaitNoWait     LockWait = "NOWAIT"      // Error immediately if a row is locked
+)
+
 // JoinType represents the type of SQL join.
 type JoinType string
 
@@ -379,6 +389,7 @@ func (SubqueryCondition) IsConditionItem() {}
 type AST struct {
 	WhereClause       ConditionItem
 	Lock              *LockMode
+	LockWait          LockWait
 	OnConflict        *ConflictClause
 	Limit             *PaginationValue
 	Offset            *PaginationValue

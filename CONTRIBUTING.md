@@ -75,6 +75,17 @@ By participating in this project, you agree to maintain a respectful and inclusi
 
 ### Quick Start
 
+For a fresh machine, provision everything (Go toolchain, C compiler, lint/security
+tools, and dependencies) in one step:
+
+```bash
+./tools/setup-dev.sh
+```
+
+Then open a new shell so `go` and the tools are on your `PATH`.
+
+To do it by hand instead:
+
 ```bash
 # Install dependencies
 go mod download
