@@ -337,10 +337,14 @@ func (r *Renderer) renderSelect(ast *types.AST, sql *strings.Builder, ctx *rende
 		sql.WriteString(r.renderPaginationValue(ast.Offset, ctx))
 	}
 
-	// Row locking (FOR UPDATE, FOR SHARE, etc.)
+	// Row locking (FOR UPDATE, FOR SHARE, etc.) with optional wait policy.
 	if ast.Lock != nil {
 		sql.WriteString(" ")
 		sql.WriteString(string(*ast.Lock))
+		if ast.LockWait != types.LockWaitNone {
+			sql.WriteString(" ")
+			sql.WriteString(string(ast.LockWait))
+		}
 	}
 
 	return nil
@@ -1274,15 +1278,16 @@ func (r *Renderer) renderOperator(op types.Operator) string {
 // Capabilities returns the SQL features supported by PostgreSQL.
 func (r *Renderer) Capabilities() render.Capabilities {
 	return render.Capabilities{
-		DistinctOn:          true,
-		Upsert:              true,
-		ReturningOnInsert:   true,
-		ReturningOnUpdate:   true,
-		ReturningOnDelete:   true,
-		CaseInsensitiveLike: true,
-		RegexOperators:      true,
-		ArrayOperators:      true,
-		InArray:             true,
-		RowLocking:          render.RowLockingFull,
+		DistinctOn:           true,
+		Upsert:               true,
+		ReturningOnInsert:    true,
+		ReturningOnUpdate:    true,
+		ReturningOnDelete:    true,
+		CaseInsensitiveLike:  true,
+		RegexOperators:       true,
+		ArrayOperators:       true,
+		InArray:              true,
+		RowLocking:           render.RowLockingFull,
+		RowLockingWaitPolicy: true,
 	}
 }

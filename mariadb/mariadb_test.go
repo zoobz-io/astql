@@ -662,6 +662,22 @@ func TestRender_ForUpdate(t *testing.T) {
 	}
 }
 
+func TestRender_RejectsWaitPolicy(t *testing.T) {
+	r := New()
+	lock := types.LockForUpdate
+	ast := &types.AST{
+		Operation: types.OpSelect,
+		Target:    types.Table{Name: "jobs"},
+		Fields:    []types.Field{{Name: "id"}},
+		Lock:      &lock,
+		LockWait:  types.LockWaitSkipLocked,
+	}
+
+	if _, err := r.Render(ast); err == nil {
+		t.Fatal("expected error for SKIP LOCKED wait policy")
+	}
+}
+
 func TestRender_ParameterizedLimit(t *testing.T) {
 	r := New()
 	pageSize := types.Param{Name: "page_size"}
@@ -2611,5 +2627,8 @@ func TestCapabilities(t *testing.T) {
 	}
 	if caps.RowLocking != render.RowLockingBasic {
 		t.Errorf("RowLocking = %v, want RowLockingBasic", caps.RowLocking)
+	}
+	if caps.RowLockingWaitPolicy {
+		t.Error("RowLockingWaitPolicy should be false")
 	}
 }

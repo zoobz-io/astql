@@ -404,6 +404,36 @@ func (b *Builder) ForKeyShare() *Builder {
 	return b
 }
 
+// SkipLocked adds SKIP LOCKED to the row lock, so rows already locked by
+// another transaction are skipped instead of waited on. Requires a lock mode
+// (ForUpdate/ForNoKeyUpdate/ForShare/ForKeyShare) to be set first.
+func (b *Builder) SkipLocked() *Builder {
+	if b.err != nil {
+		return b
+	}
+	if b.ast.Lock == nil {
+		b.err = fmt.Errorf("SKIP LOCKED requires a lock mode (call ForUpdate/ForShare first)")
+		return b
+	}
+	b.ast.LockWait = types.LockWaitSkipLocked
+	return b
+}
+
+// NoWait adds NOWAIT to the row lock, so the query errors immediately instead
+// of waiting when a target row is already locked. Requires a lock mode
+// (ForUpdate/ForNoKeyUpdate/ForShare/ForKeyShare) to be set first.
+func (b *Builder) NoWait() *Builder {
+	if b.err != nil {
+		return b
+	}
+	if b.ast.Lock == nil {
+		b.err = fmt.Errorf("NOWAIT requires a lock mode (call ForUpdate/ForShare first)")
+		return b
+	}
+	b.ast.LockWait = types.LockWaitNoWait
+	return b
+}
+
 // Join adds an INNER JOIN.
 func (b *Builder) Join(table types.Table, on types.ConditionItem) *Builder {
 	return b.addJoin(types.InnerJoin, table, on)

@@ -1443,15 +1443,16 @@ func (r *Renderer) renderOperator(op types.Operator) string {
 // Capabilities returns the SQL features supported by SQLite.
 func (r *Renderer) Capabilities() render.Capabilities {
 	return render.Capabilities{
-		DistinctOn:          false,
-		Upsert:              true,
-		ReturningOnInsert:   true,
-		ReturningOnUpdate:   true,
-		ReturningOnDelete:   true,
-		CaseInsensitiveLike: false,
-		RegexOperators:      false,
-		ArrayOperators:      false,
-		InArray:             false,
-		RowLocking:          render.RowLockingNone,
+		DistinctOn:           false,
+		Upsert:               true,
+		ReturningOnInsert:    true,
+		ReturningOnUpdate:    true,
+		ReturningOnDelete:    true,
+		CaseInsensitiveLike:  false,
+		RegexOperators:       false,
+		ArrayOperators:       false,
+		InArray:              false,
+		RowLocking:           render.RowLockingNone,
+		RowLockingWaitPolicy: false,
 	}
 }
